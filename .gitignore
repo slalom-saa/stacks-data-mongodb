@@ -250,3 +250,5 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+Slalom.SpeedStack/src/Slalom.SpeedStack.WebApi/Properties/launchSettings.json
+Examples/Authentication/Security Rules/Authentication.SecurityRules/src/Authentication.SecurityRules/Properties/launchSettings.json
