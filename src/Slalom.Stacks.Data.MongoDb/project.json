@@ -1,0 +1,41 @@
+﻿{
+  "version": "1.0.0-*",
+  "authors": [ "Slalom Architect Academy" ],
+  "packOptions": {
+    "tags": [ "slalom", "stacks" ],
+    "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
+    "requireLicenseAcceptance": true,
+    "summary": "The RavenDB Data library for Stacks."
+  },
+  "dependencies": {
+    "Slalom.Stacks": "1.0.5",
+    "NETStandard.Library": "1.6.1",
+    "MongoDB.Driver": "2.4.0"
+  },
+
+  "buildOptions": {
+    "additionalArguments": [ "/ruleset:../../Slalom.ruleset", "/additionalfile:../../stylecop.json" ],
+    "xmlDoc": true
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet54",
+        "portable-net45+win8"
+      ]
+    },
+    "net461": {
+      "dependencies": {
+      },
+      "imports": "dnxcore50"
+    }
+  },
+
+  "scripts": {
+    "postcompile": [
+      "dotnet pack --no-build --configuration %compile:Configuration%",
+      "xcopy .\\bin\\debug\\*.nupkg c:\\nuget\\ /y"
+    ]
+  }
+}
