@@ -14,8 +14,9 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Slalom.Stacks.Data.MongoDb", "src\Slalom.Stacks.Data.MongoDb\Slalom.Stacks.Data.MongoDb.xproj", "{55F614F8-EE39-4A25-9637-8352024345CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C3A2A804-9480-4434-82FE-34D29AC83E0E}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleClient", "ConsoleClient\ConsoleClient.xproj", "{E90E782D-D717-477B-9588-1D3EBAF38283}"
+	ProjectSection(SolutionItems) = preProject
+		test\ConsoleClient\ConsoleClient.xproj = test\ConsoleClient\ConsoleClient.xproj
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,16 +28,11 @@ Global
 		{55F614F8-EE39-4A25-9637-8352024345CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F614F8-EE39-4A25-9637-8352024345CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55F614F8-EE39-4A25-9637-8352024345CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E90E782D-D717-477B-9588-1D3EBAF38283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E90E782D-D717-477B-9588-1D3EBAF38283}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E90E782D-D717-477B-9588-1D3EBAF38283}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E90E782D-D717-477B-9588-1D3EBAF38283}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{55F614F8-EE39-4A25-9637-8352024345CC} = {D9E958A5-2DD1-4621-9F87-FD11703F2265}
-		{E90E782D-D717-477B-9588-1D3EBAF38283} = {C3A2A804-9480-4434-82FE-34D29AC83E0E}
 	EndGlobalSection
 EndGlobal
