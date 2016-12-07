@@ -8,19 +8,32 @@ using Slalom.Stacks.Communication;
 using Slalom.Stacks.Domain;
 using Slalom.Stacks.Reflection;
 using Slalom.Stacks.Serialization;
+using Slalom.Stacks.Validation;
 
 namespace Slalom.Stacks.Data.MongoDb
 {
-    public class MongoMappingsManager
+    /// <summary>
+    /// Builds and maintains mappings for the MongoDB Data module.
+    /// </summary>
+    internal class MongoMappingsManager
     {
         private readonly IDiscoverTypes _types;
         private bool _initialized;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MongoMappingsManager"/> class.
+        /// </summary>
+        /// <param name="types">The types.</param>
         public MongoMappingsManager(IDiscoverTypes types)
         {
+            Argument.NotNull(() => types);
+
             _types = types;
         }
 
+        /// <summary>
+        /// Ensures that the maps are initialized.
+        /// </summary>
         public void EnsureInitialized()
         {
             if (!_initialized)
@@ -42,20 +55,25 @@ namespace Slalom.Stacks.Data.MongoDb
 
         private void CreateKnownMaps()
         {
-            BsonClassMap.RegisterClassMap<Entity>(x =>
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Entity)))
             {
-                x.AutoMap();
-                x.SetIsRootClass(true);
-                x.MapIdField(e => e.Id);
-            });
-
-            BsonClassMap.RegisterClassMap<Event>(x =>
+                BsonClassMap.RegisterClassMap<Entity>(x =>
+                {
+                    x.AutoMap();
+                    x.SetIsRootClass(true);
+                    x.MapIdField(e => e.Id);
+                });
+            }
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Event)))
             {
-                x.AutoMap();
-                x.SetIsRootClass(true);
-                x.MapProperty(e => e.EventName);
-                x.MapProperty(e => e.TimeStamp);
-            });
+                BsonClassMap.RegisterClassMap<Event>(x =>
+                {
+                    x.AutoMap();
+                    x.SetIsRootClass(true);
+                    x.MapProperty(e => e.EventName);
+                    x.MapProperty(e => e.TimeStamp);
+                });
+            }
         }
 
         /// <summary>
@@ -106,7 +124,7 @@ namespace Slalom.Stacks.Data.MongoDb
             var fields = target.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (var info in fields.Where(e => e.DeclaringType == target))
             {
-                if (IntrospectionExtensions.GetTypeInfo(info.FieldType).IsGenericType && info.FieldType.GetGenericTypeDefinition() == typeof(List<>))
+                if (info.FieldType.GetTypeInfo().IsGenericType && info.FieldType.GetGenericTypeDefinition() == typeof(List<>))
                 {
                     var name = char.ToUpper(info.Name[1]) + info.Name.Substring(2);
                     if (properties.Any(e => e.Name == name))

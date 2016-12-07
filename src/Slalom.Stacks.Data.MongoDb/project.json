@@ -8,13 +8,13 @@
     "summary": "The RavenDB Data library for Stacks."
   },
   "dependencies": {
-    "Slalom.Stacks": "1.0.5",
     "NETStandard.Library": "1.6.1",
-    "MongoDB.Driver": "2.4.0"
+    "MongoDB.Driver": "2.4.0",
+    "Slalom.Stacks": "1.0.17"
   },
 
   "buildOptions": {
-    "additionalArguments": [ "/ruleset:../../Slalom.ruleset", "/additionalfile:../../stylecop.json" ],
+    "additionalArguments": [ "/ruleset:../../assets/stacks.ruleset", "/additionalfile:../../assets/stylecop.json" ],
     "xmlDoc": true
   },
 
