@@ -51,6 +51,8 @@ namespace Slalom.Stacks.Data.MongoDb
                    });
 
             builder.Register(c => new MongoDbEntityContext(_options))
+                   .AsImplementedInterfaces()
+                   .AsSelf()
                    .SingleInstance();
         }
     }
