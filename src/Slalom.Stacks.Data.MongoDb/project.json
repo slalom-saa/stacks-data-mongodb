@@ -1,16 +1,16 @@
-﻿{
-  "version": "1.0.2-*",
+{
+  "version": "1.0.3-*",
   "authors": [ "Slalom Architect Academy" ],
   "packOptions": {
-    "tags": [ "slalom", "stacks" ],
+    "tags": [ "slalom", "stacks", "data", "mongodb" ],
     "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
     "requireLicenseAcceptance": true,
-    "summary": "The RavenDB Data library for Stacks."
+    "summary": "The MongoDB Data blocks for Stacks."
   },
   "dependencies": {
     "NETStandard.Library": "1.6.1",
     "MongoDB.Driver": "2.4.0",
-    "Slalom.Stacks": "1.0.25"
+    "Slalom.Stacks": "1.0.35"
   },
 
   "buildOptions": {

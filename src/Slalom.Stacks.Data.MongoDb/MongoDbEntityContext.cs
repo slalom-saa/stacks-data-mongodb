@@ -13,13 +13,13 @@ namespace Slalom.Stacks.Data.MongoDb
     /// <seealso cref="Slalom.Stacks.Domain.IEntityContext" />
     public class MongoDbEntityContext : IEntityContext
     {
-        private readonly MongoDbDataOptions _options;
+        private readonly MongoDbRepositoriesOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoDbEntityContext"/> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        public MongoDbEntityContext(MongoDbDataOptions options)
+        public MongoDbEntityContext(MongoDbRepositoriesOptions options)
         {
             _options = options;
         }

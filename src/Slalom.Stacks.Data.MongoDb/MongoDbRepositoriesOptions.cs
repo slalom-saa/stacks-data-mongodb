@@ -4,9 +4,9 @@ using Slalom.Stacks.Validation;
 namespace Slalom.Stacks.Data.MongoDb
 {
     /// <summary>
-    /// Options for the MongoDB Data module.
+    /// Options for the MongoDB Repositories module.
     /// </summary>
-    public class MongoDbDataOptions
+    public class MongoDbRepositoriesOptions
     {
         /// <summary>
         /// Gets the connection.
@@ -25,7 +25,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// </summary>
         /// <param name="connection">The connection to use.</param>
         /// <returns>Returns this isntance for chaining.</returns>
-        public MongoDbDataOptions WithConnection(string connection)
+        public MongoDbRepositoriesOptions WithConnection(string connection)
         {
             Argument.NotNullOrWhiteSpace(() => connection);
 
@@ -39,7 +39,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// </summary>
         /// <param name="collection">The collection to use.</param>
         /// <returns>Returns this isntance for chaining.</returns>
-        public MongoDbDataOptions WithCollection(string collection)
+        public MongoDbRepositoriesOptions WithCollection(string collection)
         {
             Argument.NotNullOrWhiteSpace(() => collection);
 
