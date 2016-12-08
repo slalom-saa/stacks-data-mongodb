@@ -32,8 +32,6 @@ namespace ConsoleClient
                 {
                     container.RegisterModule(new MongoDbDataModule());
 
-                    container.Register<IRepository<Item>>(c => new Repository<Item>(c.Resolve<MongoDbEntityContext>()));
-
                     await container.Domain.AddAsync(new Item { Name = "name" });
 
                     await container.Domain.AddAsync(new Item { Name = "name 2" });
