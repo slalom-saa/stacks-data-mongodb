@@ -10,7 +10,7 @@
   "dependencies": {
     "NETStandard.Library": "1.6.1",
     "MongoDB.Driver": "2.4.0",
-    "Slalom.Stacks": "1.0.35"
+    "Slalom.Stacks": "1.0.33"
   },
 
   "buildOptions": {
