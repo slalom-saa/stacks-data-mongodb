@@ -9,8 +9,9 @@
       "type": "platform",
       "version": "1.1.0"
     },
-    "Slalom.Stacks": "1.0.25",
-    "Slalom.Stacks.Data.MongoDb": "1.0.0"
+    "Slalom.Stacks.Data.MongoDb": {
+      "target": "project"
+    }
   },
 
   "frameworks": {

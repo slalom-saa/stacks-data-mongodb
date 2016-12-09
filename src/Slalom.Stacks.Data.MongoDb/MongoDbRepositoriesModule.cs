@@ -6,29 +6,40 @@ using Slalom.Stacks.Validation;
 namespace Slalom.Stacks.Data.MongoDb
 {
     /// <summary>
-    /// An Autofac module for the MongoDB Data module.
+    /// An Autofac module for the MongoDB Repositories module.
     /// </summary>
     /// <seealso cref="Autofac.Module" />
-    public class MongoDbDataModule : Module
+    public class MongoDbRepositoriesModule : Module
     {
-        private readonly MongoDbDataOptions _options = new MongoDbDataOptions();
+        private readonly MongoDbRepositoriesOptions _options = new MongoDbRepositoriesOptions();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbDataModule"/> class.
+        /// Initializes a new instance of the <see cref="MongoDbRepositoriesModule"/> class.
         /// </summary>
-        public MongoDbDataModule()
+        public MongoDbRepositoriesModule()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbDataModule"/> class.
+        /// Initializes a new instance of the <see cref="MongoDbRepositoriesModule"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public MongoDbDataModule(Action<MongoDbDataOptions> configuration)
+        public MongoDbRepositoriesModule(Action<MongoDbRepositoriesOptions> configuration)
         {
             Argument.NotNull(() => configuration);
 
             configuration(_options);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MongoDbRepositoriesModule" /> class.
+        /// </summary>
+        /// <param name="options">The options to use.</param>
+        public MongoDbRepositoriesModule(MongoDbRepositoriesOptions options)
+        {
+            Argument.NotNull(() => options);
+
+            _options = options;
         }
 
         /// <summary>
@@ -53,7 +64,11 @@ namespace Slalom.Stacks.Data.MongoDb
             builder.Register(c => new MongoDbEntityContext(_options))
                    .AsImplementedInterfaces()
                    .AsSelf()
-                   .SingleInstance();
+                   .SingleInstance()
+                   .OnPreparing(e =>
+                   {
+                       // TODO: Configuration
+                   });
         }
     }
 }
