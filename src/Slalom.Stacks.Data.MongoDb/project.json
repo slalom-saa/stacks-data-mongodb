@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4-*",
+  "version": "1.0.5-*",
   "authors": [ "Slalom Architect Academy" ],
   "packOptions": {
     "tags": [ "slalom", "stacks", "blocks", "data", "mongodb" ],
@@ -10,7 +10,7 @@
   "dependencies": {
     "NETStandard.Library": "1.6.1",
     "MongoDB.Driver": "2.4.0",
-    "Slalom.Stacks": "1.0.34"
+    "Slalom.Stacks": "1.0.37"
   },
 
   "buildOptions": {

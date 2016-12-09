@@ -14,12 +14,12 @@ namespace ConsoleClient
     {
         public static void Main(string[] args)
         {
-            new Program().Run();
-            Console.WriteLine("Press any key to stop...");
+            Task.Factory.StartNew(() => new Program().Start());
+            Console.WriteLine("Running application.  Press any key to halt...");
             Console.ReadKey();
         }
 
-        public async Task Run()
+        public async Task Start()
         {
             try
             {
@@ -27,19 +27,20 @@ namespace ConsoleClient
                 {
                     container.UseMongoDbRepositories();
 
-                    await container.Domain.AddAsync(new Item { Name = "name" });
+                    await container.Domain.AddAsync(new Item { Name = "name" }, new Item { Name = "name 2" });
 
-                    await container.Domain.AddAsync(new Item { Name = "name 2" });
-
-
-                    Console.WriteLine(container.Domain.OpenQuery<Item>().Count());
+                    var count = container.Domain.OpenQuery<Item>().Count();
                 }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Execution completed successfully.  Press any key to exit...");
+                Console.ResetColor();
             }
             catch (Exception exception)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(exception);
+                Console.ResetColor();
             }
-            Console.WriteLine("Done executing");
         }
     }
 }
