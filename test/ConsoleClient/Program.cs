@@ -5,16 +5,11 @@ using System.Threading.Tasks;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Data;
 using Slalom.Stacks.Data.MongoDb;
-using Slalom.Stacks.Domain;
+
 #pragma warning disable 4014
 
 namespace ConsoleClient
 {
-    public class Item : Entity, IAggregateRoot
-    {
-        public string Name { get; set; }
-    }
-
     public class Program
     {
         public static void Main(string[] args)
@@ -30,11 +25,14 @@ namespace ConsoleClient
             {
                 using (var container = new ApplicationContainer(this))
                 {
-                    container.RegisterModule(new MongoDbDataModule());
+                    container.UseMongoDbRepositories();
 
                     await container.Domain.AddAsync(new Item { Name = "name" });
 
                     await container.Domain.AddAsync(new Item { Name = "name 2" });
+
+
+                    Console.WriteLine(container.Domain.OpenQuery<Item>().Count());
                 }
             }
             catch (Exception exception)

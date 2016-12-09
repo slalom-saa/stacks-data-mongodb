@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Linq;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Validation;
 
 namespace Slalom.Stacks.Data.MongoDb
 {
     /// <summary>
-    /// Contains extension methods for adding MongoDB Data blocks.
+    /// Contains extension methods to add MongoDB Data blocks.
     /// </summary>
     public static class ConfigurationExtensions
     {
         /// <summary>
-        /// Adds the MongoDB Repositories block to the container.
+        /// Adds the MongoDB Repositories block.
         /// </summary>
         /// <param name="instance">The container instance.</param>
         /// <returns>Returns the container instance for method chaining.</returns>
@@ -24,7 +23,7 @@ namespace Slalom.Stacks.Data.MongoDb
         }
 
         /// <summary>
-        /// Adds the MongoDB Repositories block to the container.
+        /// Adds the MongoDB Repositories block.
         /// </summary>
         /// <param name="instance">The container instance.</param>
         /// <param name="configuration">The configuration routine.</param>
@@ -38,7 +37,7 @@ namespace Slalom.Stacks.Data.MongoDb
         }
 
         /// <summary>
-        /// Adds the MongoDB Repositories block to the container.
+        /// Adds the MongoDB Repositories block.
         /// </summary>
         /// <param name="instance">The container instance.</param>
         /// <param name="options">The options to use.</param>

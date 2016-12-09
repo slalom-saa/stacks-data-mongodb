@@ -24,7 +24,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// Sets the connection to use.
         /// </summary>
         /// <param name="connection">The connection to use.</param>
-        /// <returns>Returns this isntance for chaining.</returns>
+        /// <returns>Returns this instance for chaining.</returns>
         public MongoDbRepositoriesOptions WithConnection(string connection)
         {
             Argument.NotNullOrWhiteSpace(() => connection);
@@ -38,7 +38,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// Sets the collection to use.
         /// </summary>
         /// <param name="collection">The collection to use.</param>
-        /// <returns>Returns this isntance for chaining.</returns>
+        /// <returns>Returns this instance for chaining.</returns>
         public MongoDbRepositoriesOptions WithCollection(string collection)
         {
             Argument.NotNullOrWhiteSpace(() => collection);
