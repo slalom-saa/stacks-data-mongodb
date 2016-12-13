@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Slalom.Stacks.Configuration;
-using Slalom.Stacks.Data;
 using Slalom.Stacks.Data.MongoDb;
+
+// ReSharper disable AccessToDisposedClosure
 
 #pragma warning disable 4014
 
@@ -23,16 +23,20 @@ namespace ConsoleClient
         {
             try
             {
+                var watch = new Stopwatch();
                 using (var container = new ApplicationContainer(this))
                 {
                     container.UseMongoDbRepositories();
 
-                    await container.Domain.AddAsync(new Item { Name = "name" }, new Item { Name = "name 2" });
-
-                    var count = container.Domain.OpenQuery<Item>().Count();
+                    watch.Start();
+                    for (var i = 0; i < 100; i++)
+                    {
+                        await Task.Run(() => container.Domain.AddAsync(new Item { Name = "name" }, new Item { Name = "name 2" }).ConfigureAwait(false));
+                    }
+                    watch.Stop();
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Execution completed successfully.  Press any key to exit...");
+                Console.WriteLine($"Execution completed successfully in {watch.Elapsed}.  Press any key to exit...");
                 Console.ResetColor();
             }
             catch (Exception exception)

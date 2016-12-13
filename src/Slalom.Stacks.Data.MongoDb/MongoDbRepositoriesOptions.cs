@@ -27,7 +27,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <returns>Returns this instance for chaining.</returns>
         public MongoDbRepositoriesOptions WithConnection(string connection)
         {
-            Argument.NotNullOrWhiteSpace(() => connection);
+            Argument.NotNull(connection, nameof(connection));
 
             this.Connection = connection;
 
@@ -41,7 +41,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <returns>Returns this instance for chaining.</returns>
         public MongoDbRepositoriesOptions WithCollection(string collection)
         {
-            Argument.NotNullOrWhiteSpace(() => collection);
+            Argument.NotNull(collection, nameof(collection));
 
             this.Collection = collection;
 

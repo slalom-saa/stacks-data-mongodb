@@ -26,7 +26,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <param name="configuration">The configuration.</param>
         public MongoDbRepositoriesModule(Action<MongoDbRepositoriesOptions> configuration)
         {
-            Argument.NotNull(() => configuration);
+            Argument.NotNull(configuration, nameof(configuration));
 
             configuration(_options);
         }
@@ -37,7 +37,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <param name="options">The options to use.</param>
         public MongoDbRepositoriesModule(MongoDbRepositoriesOptions options)
         {
-            Argument.NotNull(() => options);
+            Argument.NotNull(options, nameof(options));
 
             _options = options;
         }

@@ -1,16 +1,19 @@
 {
-  "version": "1.0.5-*",
+  "version": "1.0.6-*",
   "authors": [ "Slalom Architect Academy" ],
   "packOptions": {
     "tags": [ "slalom", "stacks", "blocks", "data", "mongodb" ],
     "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
     "requireLicenseAcceptance": true,
-    "summary": "MongoDB Data blocks for Slalom.Stacks."
+    "summary": "MongoDB Data blocks for Slalom.Stacks.",
+    "files": {
+      "include": [ "Tools", "Lib" ]
+    }
   },
   "dependencies": {
     "NETStandard.Library": "1.6.1",
     "MongoDB.Driver": "2.4.0",
-    "Slalom.Stacks": "1.0.37"
+    "Slalom.Stacks": "1.0.92"
   },
 
   "buildOptions": {
