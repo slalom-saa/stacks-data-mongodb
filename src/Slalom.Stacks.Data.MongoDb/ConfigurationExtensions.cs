@@ -16,7 +16,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <returns>Returns the container instance for method chaining.</returns>
         public static ApplicationContainer UseMongoDbRepositories(this ApplicationContainer instance)
         {
-            Argument.NotNull(() => instance);
+            Argument.NotNull(instance, nameof(instance));
 
             instance.RegisterModule(new MongoDbRepositoriesModule());
             return instance;
@@ -30,7 +30,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <returns>Returns the container instance for method chaining.</returns>
         public static ApplicationContainer UseMongoDbRepositories(this ApplicationContainer instance, Action<MongoDbRepositoriesOptions> configuration)
         {
-            Argument.NotNull(() => instance);
+            Argument.NotNull(instance, nameof(instance));
 
             instance.RegisterModule(new MongoDbRepositoriesModule(configuration));
             return instance;
@@ -44,7 +44,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <returns>Returns the container instance for method chaining.</returns>
         public static ApplicationContainer UseMongoDbRepositories(this ApplicationContainer instance, MongoDbRepositoriesOptions options)
         {
-            Argument.NotNull(() => instance);
+            Argument.NotNull(instance, nameof(instance));
 
             instance.RegisterModule(new MongoDbRepositoriesModule(options));
             return instance;

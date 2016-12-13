@@ -26,7 +26,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <param name="types">The types.</param>
         public MongoMappingsManager(IDiscoverTypes types)
         {
-            Argument.NotNull(() => types);
+            Argument.NotNull(types, nameof(types));
 
             _types = types;
         }
