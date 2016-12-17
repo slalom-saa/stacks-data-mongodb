@@ -32,6 +32,7 @@ namespace ConsoleClient
                     container.UseMongoDbRepositories();
 
                     var tasks = new List<Task>(count);
+                    watch.Start();
                     Parallel.For(0, count, e =>
                     {
                         tasks.Add(container.Bus.SendAsync(new AddItemCommand(DateTime.Now.Ticks.ToString())));
