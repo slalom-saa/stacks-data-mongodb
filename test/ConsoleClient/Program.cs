@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using ConsoleClient.Commands.AddItem;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Data.MongoDb;
 
@@ -24,19 +26,20 @@ namespace ConsoleClient
             try
             {
                 var watch = new Stopwatch();
+                var count = 1000;
                 using (var container = new ApplicationContainer(this))
                 {
                     container.UseMongoDbRepositories();
 
-                    watch.Start();
-                    for (var i = 0; i < 100; i++)
+                    var tasks = new List<Task>(count);
+                    Parallel.For(0, count, e =>
                     {
-                        await Task.Run(() => container.Domain.AddAsync(new Item { Name = "name" }, new Item { Name = "name 2" }).ConfigureAwait(false));
-                    }
-                    watch.Stop();
+                        tasks.Add(container.Bus.SendAsync(new AddItemCommand(DateTime.Now.Ticks.ToString())));
+                    });
+                    await Task.WhenAll(tasks);
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Execution completed successfully in {watch.Elapsed}.  Press any key to exit...");
+                Console.WriteLine($"Execution for {count:N0} items completed successfully in {watch.Elapsed} - {Math.Ceiling(count / watch.Elapsed.TotalSeconds):N0} per second.  Press any key to exit...");
                 Console.ResetColor();
             }
             catch (Exception exception)
