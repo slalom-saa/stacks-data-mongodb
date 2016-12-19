@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using ConsoleClient.Commands.AddItem;
+using ConsoleClient.Domain;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Data.MongoDb;
 
@@ -31,13 +34,21 @@ namespace ConsoleClient
                 {
                     container.UseMongoDbRepositories();
 
+                    await container.Domain.ClearAsync<Item>();
+
                     var tasks = new List<Task>(count);
                     watch.Start();
-                    Parallel.For(0, count, e =>
+                    Parallel.For(0, count, new ParallelOptions { MaxDegreeOfParallelism = 4 }, e =>
                     {
-                        tasks.Add(container.Bus.SendAsync(new AddItemCommand(DateTime.Now.Ticks.ToString())));
+                        tasks.Add(container.Bus.SendAsync(new AddItemCommand(Guid.NewGuid().ToString())));
                     });
                     await Task.WhenAll(tasks);
+
+                    var actual = container.Domain.OpenQuery<Item>().Count();
+                    if (actual != count)
+                    {
+                        throw new Exception($"The expected number of items added, {actual}, did not equal the expected, {count}.");
+                    }
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Execution for {count:N0} items completed successfully in {watch.Elapsed} - {Math.Ceiling(count / watch.Elapsed.TotalSeconds):N0} per second.  Press any key to exit...");
