@@ -68,7 +68,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <typeparam name="TEntity">The type of the t entity.</typeparam>
         /// <param name="id">The instance identifier.</param>
         /// <returns>A task for asynchronous programming.</returns>
-        public virtual async Task<TEntity> FindAsync<TEntity>(Guid id) where TEntity : IAggregateRoot
+        public virtual async Task<TEntity> FindAsync<TEntity>(string id) where TEntity : IAggregateRoot
         {
             var result = await this.GetCollection<TEntity>().FindAsync(e => e.Id == id);
 

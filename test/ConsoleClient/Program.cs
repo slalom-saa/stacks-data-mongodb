@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ConsoleClient.Commands.AddItem;
-using ConsoleClient.Domain;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Data.MongoDb;
+using Slalom.Stacks.Test.Commands.AddItem;
+using Slalom.Stacks.Test.Domain;
 
 // ReSharper disable AccessToDisposedClosure
 
@@ -30,7 +30,7 @@ namespace ConsoleClient
             {
                 var watch = new Stopwatch();
                 var count = 1000;
-                using (var container = new ApplicationContainer(this))
+                using (var container = new ApplicationContainer(typeof(Item)))
                 {
                     container.UseMongoDbRepositories();
 
