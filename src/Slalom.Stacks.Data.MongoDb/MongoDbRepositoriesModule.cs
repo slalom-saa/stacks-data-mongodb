@@ -11,25 +11,7 @@ namespace Slalom.Stacks.Data.MongoDb
     /// <seealso cref="Autofac.Module" />
     public class MongoDbRepositoriesModule : Module
     {
-        private readonly MongoDbRepositoriesOptions _options = new MongoDbRepositoriesOptions();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbRepositoriesModule"/> class.
-        /// </summary>
-        public MongoDbRepositoriesModule()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbRepositoriesModule"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public MongoDbRepositoriesModule(Action<MongoDbRepositoriesOptions> configuration)
-        {
-            Argument.NotNull(configuration, nameof(configuration));
-
-            configuration(_options);
-        }
+        private MongoDbRepositoriesOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoDbRepositoriesModule" /> class.
