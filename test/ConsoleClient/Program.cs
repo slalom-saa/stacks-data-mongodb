@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Slalom.Stacks;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Data.MongoDb;
 using Slalom.Stacks.Test.Commands.AddItem;
@@ -40,11 +41,11 @@ namespace ConsoleClient
                     watch.Start();
                     Parallel.For(0, count, new ParallelOptions { MaxDegreeOfParallelism = 4 }, e =>
                     {
-                        tasks.Add(container.Bus.SendAsync(new AddItemCommand(Guid.NewGuid().ToString())));
+                        tasks.Add(container.SendAsync(new AddItemCommand(Guid.NewGuid().ToString())));
                     });
                     await Task.WhenAll(tasks);
 
-                    var actual = container.Domain.OpenQuery<Item>().Count();
+                    var actual = container.Domain.FindAsync<Item>(e => true).Result.Count();
                     if (actual != count)
                     {
                         throw new Exception($"The expected number of items added, {actual}, did not equal the expected, {count}.");
