@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
@@ -39,6 +41,8 @@ namespace Slalom.Stacks.Data.MongoDb
         {
             return this.GetCollection<TEntity>().DeleteManyAsync(e => true);
         }
+
+     
 
         /// <summary>
         /// Opens a query that can be used to filter and project.
@@ -99,6 +103,13 @@ namespace Slalom.Stacks.Data.MongoDb
                 {
                     return this.GetCollection<TEntity>().ReplaceOneAsync(x => x.Id == e.Id, e, new UpdateOptions { IsUpsert = true });
                 }));
+        }
+
+        public async Task<IEnumerable<TEntity>> FindAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : IAggregateRoot
+        {
+            var result = await this.GetCollection<TEntity>().Find(expression).ToListAsync();
+
+            return result;
         }
 
         private IMongoDatabase GetDatabase()

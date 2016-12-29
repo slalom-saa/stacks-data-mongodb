@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Slalom.Stacks;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Data.MongoDb;
-using Slalom.Stacks.Test.Commands.AddItem;
-using Slalom.Stacks.Test.Domain;
+using Slalom.Stacks.Test.Examples.Actors.Items.Add;
+using Slalom.Stacks.Test.Examples.Domain;
 
 // ReSharper disable AccessToDisposedClosure
 
@@ -29,7 +30,7 @@ namespace ConsoleClient
             try
             {
                 var watch = new Stopwatch();
-                var count = 1000;
+                var count = 2000;
                 using (var container = new ApplicationContainer(typeof(Item)))
                 {
                     container.UseMongoDbRepositories();
@@ -40,11 +41,11 @@ namespace ConsoleClient
                     watch.Start();
                     Parallel.For(0, count, new ParallelOptions { MaxDegreeOfParallelism = 4 }, e =>
                     {
-                        tasks.Add(container.Bus.SendAsync(new AddItemCommand(Guid.NewGuid().ToString())));
+                        tasks.Add(container.SendAsync(new AddItemCommand(Guid.NewGuid().ToString())));
                     });
                     await Task.WhenAll(tasks);
 
-                    var actual = container.Domain.OpenQuery<Item>().Count();
+                    var actual = (await container.Domain.FindAsync<Item>(e => true)).Count();
                     if (actual != count)
                     {
                         throw new Exception($"The expected number of items added, {actual}, did not equal the expected, {count}.");
