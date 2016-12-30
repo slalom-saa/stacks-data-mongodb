@@ -45,7 +45,7 @@ namespace ConsoleClient
                     });
                     await Task.WhenAll(tasks);
 
-                    var actual = container.Domain.FindAsync<Item>(e => true).Result.Count();
+                    var actual = container.Domain.FindAsync<Item>().Result.Count();
                     if (actual != count)
                     {
                         throw new Exception($"The expected number of items added, {actual}, did not equal the expected, {count}.");

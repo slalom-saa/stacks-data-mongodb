@@ -15,7 +15,8 @@
     "Slalom.Stacks.Data.MongoDb": {
       "target": "project"
     },
-    "Slalom.Stacks.Test": "1.2.55"},
+    "Slalom.Stacks.Test": "1.2.57"
+  },
 
   "frameworks": {
     "netcoreapp1.0": {
