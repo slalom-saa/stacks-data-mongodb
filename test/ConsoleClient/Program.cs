@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Slalom.Stacks;
 using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Data.MongoDb;
-using Slalom.Stacks.Test.Commands.AddItem;
-using Slalom.Stacks.Test.Domain;
+using Slalom.Stacks.Test.Examples.Actors.Items.Add;
+using Slalom.Stacks.Test.Examples.Domain;
 
 // ReSharper disable AccessToDisposedClosure
 
