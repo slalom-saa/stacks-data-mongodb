@@ -70,8 +70,8 @@ namespace Slalom.Stacks.Data.MongoDb
                 {
                     x.AutoMap();
                     x.SetIsRootClass(true);
-                    x.MapProperty(e => e.EventName);
-                    x.MapProperty(e => e.TimeStamp);
+                    x.MapProperty("EventName");
+                    x.MapProperty("TimeStamp");
                 });
             }
         }
