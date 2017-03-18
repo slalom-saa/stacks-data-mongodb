@@ -6,6 +6,7 @@ using System.Reflection;
 using MongoDB.Bson.Serialization;
 using Slalom.Stacks.Domain;
 using Slalom.Stacks.Messaging;
+using Slalom.Stacks.Messaging.Events;
 using Slalom.Stacks.Reflection;
 using Slalom.Stacks.Serialization;
 using Slalom.Stacks.Validation;
