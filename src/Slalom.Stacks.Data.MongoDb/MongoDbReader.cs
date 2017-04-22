@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Slalom.Stacks.Search;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     public class MongoDbReader<TItem> : IEntityReader<TItem>
     {

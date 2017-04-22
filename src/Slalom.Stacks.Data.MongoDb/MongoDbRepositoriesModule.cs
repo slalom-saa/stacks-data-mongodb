@@ -4,7 +4,7 @@ using Autofac;
 using Slalom.Stacks.Reflection;
 using Slalom.Stacks.Validation;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
     /// An Autofac module for the MongoDB Repositories module.
@@ -66,6 +66,15 @@ namespace Slalom.Stacks.Data.MongoDb
                 .Where(e => e.GetBaseAndContractTypes().Contains(typeof(MongoDbReader<>)))
                 .AsSelf()
                 .AsImplementedInterfaces();
+
+            _stack.Assemblies.CollectionChanged += (sender, e) =>
+            {
+                builder.RegisterAssemblyTypes(e.NewItems.OfType<System.Reflection.Assembly>().ToArray())
+                       .Where(x => x.GetBaseAndContractTypes().Contains(typeof(MongoDbReader<>)))
+                       .AsSelf()
+                       .AsImplementedInterfaces();
+
+            };
         }
     }
 }

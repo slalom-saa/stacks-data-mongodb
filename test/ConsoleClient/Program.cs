@@ -2,7 +2,7 @@
 using System.Linq;
 using Autofac;
 using Slalom.Stacks;
-using Slalom.Stacks.Data.MongoDb;
+using Slalom.Stacks.MongoDb;
 using Slalom.Stacks.Search;
 using Slalom.Stacks.Text;
 

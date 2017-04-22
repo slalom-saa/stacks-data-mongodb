@@ -1,9 +1,8 @@
 ﻿using System;
 using Autofac;
-using Slalom.Stacks.Configuration;
 using Slalom.Stacks.Validation;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
     /// Contains extension methods to add MongoDB Data blocks.

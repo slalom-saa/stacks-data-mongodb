@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using Slalom.Stacks.Domain;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
     /// A MongoDB <see cref="IEntityContext"/> implementation.

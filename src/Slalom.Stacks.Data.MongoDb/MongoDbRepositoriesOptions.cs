@@ -1,7 +1,7 @@
 ﻿using System;
 using Slalom.Stacks.Validation;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
     /// Options for the MongoDB module.

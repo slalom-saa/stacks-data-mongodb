@@ -8,7 +8,7 @@
   },
 
   "dependencies": {
-    "Slalom.Stacks.Data.MongoDb": {
+    "Slalom.Stacks.MongoDb": {
       "target": "project"
     },
     "Slalom.Stacks.TestKit": "1.5.13"

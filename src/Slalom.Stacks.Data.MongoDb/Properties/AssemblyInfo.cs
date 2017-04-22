@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Slalom.Stacks.Data.MongoDb")]
+[assembly: AssemblyProduct("Slalom.Stacks.MongoDb")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
