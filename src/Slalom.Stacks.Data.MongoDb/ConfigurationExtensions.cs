@@ -11,21 +11,21 @@ namespace Slalom.Stacks.Data.MongoDb
     public static class ConfigurationExtensions
     {
         /// <summary>
-        /// Adds the MongoDB Repositories block.
+        /// Adds the MongoDB block.
         /// </summary>
         /// <param name="instance">The container instance.</param>
         /// <param name="configuration">The configuration routine.</param>
         /// <returns>Returns the container instance for method chaining.</returns>
-        public static Stack UseMongoDbRepositories(this Stack instance, Action<MongoDbRepositoriesOptions> configuration = null)
+        public static Stack UseMongoDb(this Stack instance, Action<MongoDbOptions> configuration = null)
         {
             Argument.NotNull(instance, nameof(instance));
 
-            var options = new MongoDbRepositoriesOptions();
+            var options = new MongoDbOptions();
             configuration?.Invoke(options);
 
             instance.Use(builder =>
             {
-                builder.RegisterModule(new MongoDbRepositoriesModule(options));
+                builder.RegisterModule(new MongoDbRepositoriesModule(instance, options));
             });
             
             return instance;

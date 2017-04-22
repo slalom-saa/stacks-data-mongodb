@@ -8,8 +8,9 @@
     "summary": "MongoDB Data blocks for Stacks."
   },
   "dependencies": {
+    "Inflector": "1.0.0",
     "MongoDB.Driver": "2.4.0",
-    "Slalom.Stacks": "1.5.13"
+    "Slalom.Stacks": "1.6.10"
   },
 
   "buildOptions": {

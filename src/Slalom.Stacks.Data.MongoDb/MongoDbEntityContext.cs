@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Slalom.Stacks.Domain;
 
@@ -15,22 +14,16 @@ namespace Slalom.Stacks.Data.MongoDb
     /// <seealso cref="Slalom.Stacks.Domain.IEntityContext" />
     public class MongoDbEntityContext : IEntityContext
     {
-        private readonly MongoDbRepositoriesOptions _options;
+        private readonly MongoDbOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoDbEntityContext"/> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        public MongoDbEntityContext(MongoDbRepositoriesOptions options)
+        public MongoDbEntityContext(MongoDbOptions options)
         {
             _options = options;
         }
-
-        /// <summary>
-        /// Gets the configured <see cref="IConfiguration" />.
-        /// </summary>
-        /// <value>The configured <see cref="IConfiguration" />.</value>
-        protected IConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Adds the specified instances.
@@ -130,7 +123,7 @@ namespace Slalom.Stacks.Data.MongoDb
             var client = !string.IsNullOrWhiteSpace(_options.Connection) ? new MongoClient(_options.Connection)
                              : new MongoClient();
 
-            return client.GetDatabase(_options.Collection ?? "local");
+            return client.GetDatabase(_options.Database ?? "local");
         }
 
         public async Task<bool> Exists<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : IAggregateRoot

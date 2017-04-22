@@ -15,6 +15,13 @@
   },
 
   "frameworks": {
-    "net461": {}
+    "net461": {
+      "dependencies": {
+        "System.Runtime.InteropServices.RuntimeInformation": "4.3.0"
+      },
+      "frameworkAssemblies": {
+        "System.Runtime.InteropServices": "4.0.20.0"
+      }
+    }
   }
 }
