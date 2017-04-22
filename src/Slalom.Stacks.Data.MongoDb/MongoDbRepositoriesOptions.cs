@@ -1,12 +1,12 @@
 ﻿using System;
 using Slalom.Stacks.Validation;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
-    /// Options for the MongoDB Repositories module.
+    /// Options for the MongoDB module.
     /// </summary>
-    public class MongoDbRepositoriesOptions
+    public class MongoDbOptions
     {
         /// <summary>
         /// Gets the connection.
@@ -15,17 +15,17 @@ namespace Slalom.Stacks.Data.MongoDb
         internal string Connection { get; private set; } = "";
 
         /// <summary>
-        /// Gets the collection.
+        /// Gets the database.
         /// </summary>
-        /// <value>The collection.</value>
-        internal string Collection { get; private set; }
+        /// <value>The database.</value>
+        internal string Database { get; private set; }
 
         /// <summary>
         /// Sets the connection to use.
         /// </summary>
         /// <param name="connection">The connection to use.</param>
         /// <returns>Returns this instance for chaining.</returns>
-        public MongoDbRepositoriesOptions WithConnection(string connection)
+        public MongoDbOptions WithConnection(string connection)
         {
             Argument.NotNull(connection, nameof(connection));
 
@@ -35,15 +35,15 @@ namespace Slalom.Stacks.Data.MongoDb
         }
 
         /// <summary>
-        /// Sets the collection to use.
+        /// Sets the database to use.
         /// </summary>
-        /// <param name="collection">The collection to use.</param>
+        /// <param name="database">The database to use.</param>
         /// <returns>Returns this instance for chaining.</returns>
-        public MongoDbRepositoriesOptions WithCollection(string collection)
+        public MongoDbOptions WithDatabase(string database)
         {
-            Argument.NotNull(collection, nameof(collection));
+            Argument.NotNull(database, nameof(database));
 
-            this.Collection = collection;
+            this.Database = database;
 
             return this;
         }

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Slalom.Stacks.Domain;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
     /// A MongoDB <see cref="IEntityContext"/> implementation.
@@ -15,22 +14,16 @@ namespace Slalom.Stacks.Data.MongoDb
     /// <seealso cref="Slalom.Stacks.Domain.IEntityContext" />
     public class MongoDbEntityContext : IEntityContext
     {
-        private readonly MongoDbRepositoriesOptions _options;
+        private readonly MongoDbOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoDbEntityContext"/> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        public MongoDbEntityContext(MongoDbRepositoriesOptions options)
+        public MongoDbEntityContext(MongoDbOptions options)
         {
             _options = options;
         }
-
-        /// <summary>
-        /// Gets the configured <see cref="IConfiguration" />.
-        /// </summary>
-        /// <value>The configured <see cref="IConfiguration" />.</value>
-        protected IConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Adds the specified instances.
@@ -38,7 +31,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="instances">The instances to update.</param>
         /// <returns>A task for asynchronous programming.</returns>
-        public virtual Task AddAsync<TEntity>(TEntity[] instances) where TEntity : IAggregateRoot
+        public virtual Task Add<TEntity>(TEntity[] instances) where TEntity : IAggregateRoot
         {
             return this.GetCollection<TEntity>().InsertManyAsync(instances);
         }
@@ -48,7 +41,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <returns>A task for asynchronous programming.</returns>
-        public Task ClearAsync<TEntity>() where TEntity : IAggregateRoot
+        public Task Clear<TEntity>() where TEntity : IAggregateRoot
         {
             return this.GetCollection<TEntity>().DeleteManyAsync(e => true);
         }
@@ -59,7 +52,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <typeparam name="TEntity">The type of the t entity.</typeparam>
         /// <param name="id">The instance identifier.</param>
         /// <returns>A task for asynchronous programming.</returns>
-        public virtual async Task<TEntity> FindAsync<TEntity>(string id) where TEntity : IAggregateRoot
+        public virtual async Task<TEntity> Find<TEntity>(string id) where TEntity : IAggregateRoot
         {
             var result = await this.GetCollection<TEntity>().FindAsync(e => e.Id == id);
 
@@ -72,7 +65,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="expression">The expression to filter with.</param>
         /// <returns>A task for asynchronous programming.</returns>
-        public async Task<IEnumerable<TEntity>> FindAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : IAggregateRoot
+        public async Task<IEnumerable<TEntity>> Find<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : IAggregateRoot
         {
             var result = await this.GetCollection<TEntity>().FindAsync(expression);
 
@@ -84,7 +77,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <returns>A task for asynchronous programming.</returns>
-        public async Task<IEnumerable<TEntity>> FindAsync<TEntity>() where TEntity : IAggregateRoot
+        public async Task<IEnumerable<TEntity>> Find<TEntity>() where TEntity : IAggregateRoot
         {
             var result = await this.GetCollection<TEntity>().AsQueryable().ToListAsync();
 
@@ -97,7 +90,7 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="instances">The instances to remove.</param>
         /// <returns>A task for asynchronous programming.</returns>
-        public virtual Task RemoveAsync<TEntity>(TEntity[] instances) where TEntity : IAggregateRoot
+        public virtual Task Remove<TEntity>(TEntity[] instances) where TEntity : IAggregateRoot
         {
             var ids = instances.Select(e => e.Id).ToList();
             return this.GetCollection<TEntity>().DeleteManyAsync(e => ids.Contains(e.Id));
@@ -109,13 +102,15 @@ namespace Slalom.Stacks.Data.MongoDb
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="instances">The instances to update.</param>
         /// <returns>A task for asynchronous programming.</returns>
-        public virtual Task UpdateAsync<TEntity>(TEntity[] instances) where TEntity : IAggregateRoot
+        public virtual Task Update<TEntity>(TEntity[] instances) where TEntity : IAggregateRoot
         {
-            return Task.WhenAll(
-                instances.ToList().Select(e =>
-                {
-                    return this.GetCollection<TEntity>().ReplaceOneAsync(x => x.Id == e.Id, e, new UpdateOptions { IsUpsert = true });
-                }));
+            var requests = new List<ReplaceOneModel<TEntity>>(instances.Count());
+            foreach (var entity in instances)
+            {
+                var filter = new FilterDefinitionBuilder<TEntity>().Where(m => m.Id == entity.Id);
+                requests.Add(new ReplaceOneModel<TEntity>(filter, entity));
+            }
+            return this.GetCollection<TEntity>().BulkWriteAsync(requests);
         }
 
         private IMongoCollection<TEntity> GetCollection<TEntity>()
@@ -128,7 +123,21 @@ namespace Slalom.Stacks.Data.MongoDb
             var client = !string.IsNullOrWhiteSpace(_options.Connection) ? new MongoClient(_options.Connection)
                              : new MongoClient();
 
-            return client.GetDatabase(_options.Collection ?? "local");
+            return client.GetDatabase(_options.Database ?? "local");
+        }
+
+        public async Task<bool> Exists<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : IAggregateRoot
+        {
+            var result = await this.Find<TEntity>(expression);
+
+            return result.Any();
+        }
+
+        public async Task<bool> Exists<TEntity>(string id) where TEntity : IAggregateRoot
+        {
+            var result = await this.Find<TEntity>(id);
+
+            return result != null;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Autofac;
 using Slalom.Stacks.Reflection;
 using Slalom.Stacks.Validation;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
     /// An Autofac module for the MongoDB Repositories module.
@@ -11,16 +12,19 @@ namespace Slalom.Stacks.Data.MongoDb
     /// <seealso cref="Autofac.Module" />
     public class MongoDbRepositoriesModule : Module
     {
-        private MongoDbRepositoriesOptions _options;
+        private readonly Stack _stack;
+        private MongoDbOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoDbRepositoriesModule" /> class.
         /// </summary>
+        /// <param name="stack"></param>
         /// <param name="options">The options to use.</param>
-        public MongoDbRepositoriesModule(MongoDbRepositoriesOptions options)
+        public MongoDbRepositoriesModule(Stack stack, MongoDbOptions options)
         {
             Argument.NotNull(options, nameof(options));
 
+            _stack = stack;
             _options = options;
         }
 
@@ -51,6 +55,26 @@ namespace Slalom.Stacks.Data.MongoDb
                    {
                        // TODO: Configuration
                    });
+
+            builder.Register(c => _options).AsSelf();
+
+            builder.RegisterGeneric(typeof(MongoDbReader<>))
+                .WithParameter("options", _options)
+                .AsImplementedInterfaces();
+
+            builder.RegisterAssemblyTypes(_stack.Assemblies.ToArray())
+                .Where(e => e.GetBaseAndContractTypes().Contains(typeof(MongoDbReader<>)))
+                .AsSelf()
+                .AsImplementedInterfaces();
+
+            _stack.Assemblies.CollectionChanged += (sender, e) =>
+            {
+                builder.RegisterAssemblyTypes(e.NewItems.OfType<System.Reflection.Assembly>().ToArray())
+                       .Where(x => x.GetBaseAndContractTypes().Contains(typeof(MongoDbReader<>)))
+                       .AsSelf()
+                       .AsImplementedInterfaces();
+
+            };
         }
     }
 }

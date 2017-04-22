@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Slalom.Stacks.Data.MongoDb;
-using Slalom.Stacks.Test.Examples;
+using Autofac;
+using Slalom.Stacks;
+using Slalom.Stacks.MongoDb;
+using Slalom.Stacks.Search;
+using Slalom.Stacks.Text;
 
 namespace ConsoleClient
 {
@@ -9,9 +12,15 @@ namespace ConsoleClient
     {
         public static void Main(string[] args)
         {
-            var runner = new ExampleRunner(typeof(MongoDbEntityContext));
-            runner.With(e => e.UseMongoDbRepositories());
-            runner.Start();
+            using (var stack = new ConsoleStack())
+            {
+                stack.UseMongoDb(e =>
+                {
+                    e.WithDatabase("treatment-local");
+                });
+
+                stack.Search.Read<User>().Skip(10).Take(10).OutputToJson();
+            }
 
             Console.WriteLine("Running application.  Press any key to halt...");
             Console.ReadKey();

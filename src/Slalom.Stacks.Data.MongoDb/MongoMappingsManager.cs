@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using MongoDB.Bson.Serialization;
 using Slalom.Stacks.Domain;
-using Slalom.Stacks.Messaging;
 using Slalom.Stacks.Reflection;
 using Slalom.Stacks.Serialization;
+using Slalom.Stacks.Services;
 using Slalom.Stacks.Validation;
 
-namespace Slalom.Stacks.Data.MongoDb
+namespace Slalom.Stacks.MongoDb
 {
     /// <summary>
     /// Builds and maintains mappings for the MongoDB Data module.
