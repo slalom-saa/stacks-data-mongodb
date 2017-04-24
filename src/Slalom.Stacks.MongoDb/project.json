@@ -24,12 +24,5 @@
       },
       "imports": "dnxcore50"
     }
-  },
-
-  "scripts": {
-    "postcompile": [
-      "dotnet pack --no-build --configuration %compile:Configuration%",
-      "xcopy .\\bin\\%compile:Configuration%\\*.nupkg c:\\nuget\\ /y"
-    ]
   }
 }
