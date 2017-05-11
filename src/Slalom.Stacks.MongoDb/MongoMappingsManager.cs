@@ -1,4 +1,11 @@
-﻿using System;
+﻿/* 
+ * Copyright (c) Stacks Contributors
+ * 
+ * This file is subject to the terms and conditions defined in
+ * the LICENSE file, which is part of this source code package.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,7 +14,7 @@ using MongoDB.Bson.Serialization;
 using Slalom.Stacks.Domain;
 using Slalom.Stacks.Reflection;
 using Slalom.Stacks.Serialization;
-using Slalom.Stacks.Services;
+using Slalom.Stacks.Services.Logging;
 using Slalom.Stacks.Validation;
 
 namespace Slalom.Stacks.MongoDb
@@ -21,7 +28,7 @@ namespace Slalom.Stacks.MongoDb
         private bool _initialized;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoMappingsManager"/> class.
+        /// Initializes a new instance of the <see cref="MongoMappingsManager" /> class.
         /// </summary>
         /// <param name="types">The types.</param>
         public MongoMappingsManager(IDiscoverTypes types)
@@ -29,6 +36,30 @@ namespace Slalom.Stacks.MongoDb
             Argument.NotNull(types, nameof(types));
 
             _types = types;
+        }
+
+        /// <summary>
+        /// Dynamically builds a map for the specified type.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        public static void BuildMap(Type target)
+        {
+            // First check that the type is not already registered to prevent errors.
+            if (!BsonClassMap.IsClassMapRegistered(target))
+            {
+                var map = new BsonClassMap(target);
+
+                var properties = target.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                var propertyNames = properties.Select(x => x.Name);
+
+                MapStandardProperties(target, properties, map);
+
+                MapEnumerableProperties(target, properties, map);
+
+                MapConstructors(target, propertyNames, map);
+
+                BsonClassMap.RegisterClassMap(map);
+            }
         }
 
         /// <summary>
@@ -73,30 +104,6 @@ namespace Slalom.Stacks.MongoDb
                     x.MapProperty("EventName");
                     x.MapProperty("TimeStamp");
                 });
-            }
-        }
-
-        /// <summary>
-        /// Dynamically builds a map for the specified type.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        public static void BuildMap(Type target)
-        {
-            // First check that the type is not already registered to prevent errors.
-            if (!BsonClassMap.IsClassMapRegistered(target))
-            {
-                var map = new BsonClassMap(target);
-
-                var properties = target.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                var propertyNames = properties.Select(x => x.Name);
-
-                MapStandardProperties(target, properties, map);
-
-                MapEnumerableProperties(target, properties, map);
-
-                MapConstructors(target, propertyNames, map);
-
-                BsonClassMap.RegisterClassMap(map);
             }
         }
 
