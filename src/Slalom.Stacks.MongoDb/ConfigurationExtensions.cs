@@ -1,4 +1,11 @@
-﻿using System;
+﻿/* 
+ * Copyright (c) Stacks Contributors
+ * 
+ * This file is subject to the terms and conditions defined in
+ * the LICENSE file, which is part of this source code package.
+ */
+
+using System;
 using Autofac;
 using Slalom.Stacks.Validation;
 
@@ -22,11 +29,8 @@ namespace Slalom.Stacks.MongoDb
             var options = new MongoDbOptions();
             configuration?.Invoke(options);
 
-            instance.Use(builder =>
-            {
-                builder.RegisterModule(new MongoDbRepositoriesModule(instance, options));
-            });
-            
+            instance.Use(builder => { builder.RegisterModule(new MongoDbRepositoriesModule(instance, options)); });
+
             return instance;
         }
     }

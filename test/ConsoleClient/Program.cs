@@ -12,7 +12,7 @@ namespace ConsoleClient
     {
         public static void Main(string[] args)
         {
-            using (var stack = new ConsoleStack())
+            using (var stack = new Stack())
             {
                 stack.UseMongoDb(e =>
                 {

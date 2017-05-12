@@ -1,7 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/* 
+ * Copyright (c) Stacks Contributors
+ * 
+ * This file is subject to the terms and conditions defined in
+ * the LICENSE file, which is part of this source code package.
+ */
+
 using System.Linq;
-using System.Threading.Tasks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Slalom.Stacks.Search;
@@ -11,7 +15,7 @@ namespace Slalom.Stacks.MongoDb
     public class MongoDbReader<TItem> : IEntityReader<TItem>
     {
         private readonly MongoDbOptions _options;
-        private string _collection;
+        private readonly string _collection;
 
         public MongoDbReader(MongoDbOptions options)
         {
@@ -44,7 +48,8 @@ namespace Slalom.Stacks.MongoDb
 
         private IMongoDatabase GetDatabase()
         {
-            var client = !string.IsNullOrWhiteSpace(_options.Connection) ? new MongoClient(_options.Connection)
+            var client = !string.IsNullOrWhiteSpace(_options.Connection)
+                ? new MongoClient(_options.Connection)
                 : new MongoClient();
 
             return client.GetDatabase(_options.Database ?? "local");
