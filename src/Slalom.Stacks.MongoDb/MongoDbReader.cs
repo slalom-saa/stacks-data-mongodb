@@ -6,6 +6,7 @@
  */
 
 using System.Linq;
+using System.Security.Authentication;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Slalom.Stacks.Search;
@@ -48,9 +49,22 @@ namespace Slalom.Stacks.MongoDb
 
         private IMongoDatabase GetDatabase()
         {
-            var client = !string.IsNullOrWhiteSpace(_options.Connection)
-                ? new MongoClient(_options.Connection)
-                : new MongoClient();
+            MongoClient client;
+            if (!string.IsNullOrWhiteSpace(_options.ConnectionString))
+            {
+                var settings = MongoClientSettings.FromUrl(new MongoUrl(_options.ConnectionString));
+                settings.SslSettings = new SslSettings
+                {
+                    EnabledSslProtocols = SslProtocols.Tls12,
+                    ServerCertificateValidationCallback = (a, b, c, d) => true
+                };
+
+                client = new MongoClient(settings);
+            }
+            else
+            {
+                client = new MongoClient();
+            }
 
             return client.GetDatabase(_options.Database ?? "local");
         }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9E958A5-2DD1-4621-9F87-FD11703F2265}"
 EndProject
@@ -9,16 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{9C80D6
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		Build.ps1 = Build.ps1
-		global.json = global.json
 		assets\Package.ps1 = assets\Package.ps1
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C3A2A804-9480-4434-82FE-34D29AC83E0E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Slalom.Stacks.MongoDb", "src\Slalom.Stacks.MongoDb\Slalom.Stacks.MongoDb.xproj", "{55F614F8-EE39-4A25-9637-8352024345CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slalom.Stacks.MongoDb", "src\Slalom.Stacks.MongoDb\Slalom.Stacks.MongoDb.csproj", "{55F614F8-EE39-4A25-9637-8352024345CC}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleClient", "test\ConsoleClient\ConsoleClient.xproj", "{E90E782D-D717-477B-9588-1D3EBAF38283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "test\ConsoleClient\ConsoleClient.csproj", "{E90E782D-D717-477B-9588-1D3EBAF38283}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

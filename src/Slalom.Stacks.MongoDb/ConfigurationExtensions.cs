@@ -7,6 +7,7 @@
 
 using System;
 using Autofac;
+using Microsoft.Extensions.Configuration;
 using Slalom.Stacks.Validation;
 
 namespace Slalom.Stacks.MongoDb
@@ -28,6 +29,7 @@ namespace Slalom.Stacks.MongoDb
 
             var options = new MongoDbOptions();
             configuration?.Invoke(options);
+            instance.Configuration.GetSection("Stacks:MongoDB").Bind(options);
 
             instance.Use(builder => { builder.RegisterModule(new MongoDbRepositoriesModule(instance, options)); });
 

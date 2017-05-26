@@ -15,30 +15,16 @@ namespace Slalom.Stacks.MongoDb
     public class MongoDbOptions
     {
         /// <summary>
-        /// Gets the connection.
+        /// Gets or sets the connection string.
         /// </summary>
-        /// <value>The connection.</value>
-        internal string Connection { get; private set; } = "";
+        /// <value>The connection string.</value>
+        public string ConnectionString { get; set; } = "";
 
         /// <summary>
-        /// Gets the database.
+        /// Gets or sets the database name.
         /// </summary>
-        /// <value>The database.</value>
-        internal string Database { get; private set; }
-
-        /// <summary>
-        /// Sets the connection to use.
-        /// </summary>
-        /// <param name="connection">The connection to use.</param>
-        /// <returns>Returns this instance for chaining.</returns>
-        public MongoDbOptions WithConnection(string connection)
-        {
-            Argument.NotNull(connection, nameof(connection));
-
-            this.Connection = connection;
-
-            return this;
-        }
+        /// <value>The database name.</value>
+        public string Database { get; set; } = "Stacks";
 
         /// <summary>
         /// Sets the database to use.
