@@ -16,7 +16,7 @@ namespace ConsoleClient
             {
                 stack.UseMongoDb(e =>
                 {
-                    e.WithDatabase("treatment-local");
+                  //  e.WithDatabase("treatment-local");
                 });
 
                 stack.Search.Read<User>().Skip(10).Take(10).OutputToJson();
